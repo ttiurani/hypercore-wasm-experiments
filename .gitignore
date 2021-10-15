@@ -7,3 +7,5 @@ wasm-pack.log
 server/node_modules
 www/
 .data/
+dist/
+node_modules/

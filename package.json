@@ -1,0 +1,26 @@
+{
+  "name": "hypercore-wasm-experiments",
+  "version": "1.0.0",
+  "description": "Hypercore WASM experiments",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild callbacks.js --bundle --outfile=dist/callbacks.js --format=esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frando/hypercore-wasm-experiments.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Frando/hypercore-wasm-experiments/issues"
+  },
+  "homepage": "https://github.com/Frando/hypercore-wasm-experiments#readme",
+  "dependencies": {
+    "random-access-web": "^2.0.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.13.6",
+    "events": "^3.3.0"
+  }
+}

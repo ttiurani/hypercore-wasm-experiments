@@ -7,6 +7,7 @@ use wasm_bindgen_futures::spawn_local;
 use web_sys::{Document, HtmlElement, Window};
 
 mod hypercore;
+mod persistence;
 mod utils;
 mod ws;
 
@@ -28,6 +29,14 @@ pub async fn run_async(addr: String, key: String) -> Result<(), JsValue> {
     let (app_tx, mut app_rx) = mpsc::unbounded();
 
     spawn_local(async move {
+        info!(
+            "GOT ASYNC NAME {}",
+            persistence::testing_name()
+                .await
+                .unwrap()
+                .as_string()
+                .unwrap()
+        );
         hypercore::replicate(proto, key, app_tx).await.unwrap();
     });
 
