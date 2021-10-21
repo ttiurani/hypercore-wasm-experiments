@@ -239,11 +239,7 @@ async fn on_data(
     let value: Option<&[u8]> = match msg.value.as_ref() {
         None => None,
         Some(value) => {
-            // eprintln!(
-            //     "recv idx {}: {:?}",
-            //     msg.index,
-            //     String::from_utf8(value.clone()).unwrap()
-            // );
+            debug!("receive data: {:?}", String::from_utf8(value.clone()));
             Some(value)
         }
     };
@@ -265,11 +261,6 @@ async fn on_data(
 
     feed.put(msg.index, value, proof.clone()).await.unwrap();
 
-    if let Some(value) = msg.value.clone() {
-        debug!("receive data: {:?}", String::from_utf8(value.clone()));
-        state.data.insert(msg.index, value);
-    }
-
     let next = msg.index + 1;
     if state.remote_head >= next {
         // Request next data block.
@@ -281,11 +272,6 @@ async fn on_data(
         };
         channel.request(msg).await?;
     } else {
-        // let text = state
-        //     .data
-        //     .values()
-        //     .map(|b| String::from_utf8(b.to_vec()).unwrap())
-        //     .collect::<String>();
         let mut full_text = String::new();
         for i in 0..feed.len() {
             let line = String::from_utf8(feed.get(i).await.unwrap().unwrap()).unwrap();
@@ -306,14 +292,12 @@ async fn on_data(
 struct FeedState {
     pub remote_head: u64,
     pub started: bool,
-    pub data: BTreeMap<u64, Vec<u8>>,
 }
 impl Default for FeedState {
     fn default() -> Self {
         FeedState {
             remote_head: 0,
             started: false,
-            data: BTreeMap::new(),
         }
     }
 }
