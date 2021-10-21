@@ -28,7 +28,8 @@ js-sys = "0.3.37"
 futures = "0.3.13"
 anyhow = "1.0.42"
 async-std = "1.5.0"
-random-access-storage = "4.0.0"
+# random-access-storage = "4.0.0"
+random-access-storage = { path = "../random-access-storage" }
 
 # We don't depend on this directly but specify it here to enable the required wasm-bindgen feature
 # getrandom = { version = "0.1", features = ["wasm-bindgen"] }

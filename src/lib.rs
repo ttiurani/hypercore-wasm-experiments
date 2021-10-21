@@ -29,26 +29,18 @@ pub async fn run_async(addr: String, key: String) -> Result<(), JsValue> {
     let (app_tx, mut app_rx) = mpsc::unbounded();
 
     spawn_local(async move {
-        info!(
-            "GOT ASYNC NAME {}",
-            persistence::testing_name()
-                .await
-                .unwrap()
-                .as_string()
-                .unwrap()
-        );
+        info!("call hypercore::replicate");
         hypercore::replicate(proto, key, app_tx).await.unwrap();
     });
 
     let (_window, document, body) = get_elements().unwrap();
-    while let Some(event) = app_rx.next().await {
-        match event {
-            AppEvent::ContentLoaded(content) => {
-                // Manufacture the element we're gonna append
-                let val = document.create_element("pre")?;
-                val.set_text_content(Some(&content));
-                body.append_child(&val)?;
-            }
+    let event = app_rx.next().await.unwrap();
+    match event {
+        AppEvent::ContentLoaded(content) => {
+            // Manufacture the element we're gonna append
+            let val = document.create_element("pre")?;
+            val.set_text_content(Some(&content));
+            body.append_child(&val)?;
         }
     }
     Ok(())

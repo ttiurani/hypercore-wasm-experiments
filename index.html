@@ -3,9 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>Hypercore Protocol in WASM</title>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="dist/index.js"></script>
 </head>
 <body>
-    <button onClick="console.log('pressed')"></button>
+    <button onClick="document.counter=(document.counter ? document.counter+1 : 1);document.getElementById('counter').innerHTML=`${document.counter}`;">do UI stuff while WASM processing</button>
+    <span id="counter"></span>
+    <div>
+      <pre id="readme"></pre>
+    </div>
 </body>
 </html>

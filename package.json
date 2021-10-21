@@ -4,7 +4,7 @@
   "description": "Hypercore WASM experiments",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild callbacks.js --bundle --outfile=dist/callbacks.js --format=esm"
+    "build": "esbuild index.js callbacks.js --bundle --outdir=dist --format=esm --define:global=window --inject:esbuild.inject.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Frando/hypercore-wasm-experiments#readme",
   "dependencies": {
-    "random-access-web": "^2.0.3"
+    "buffer": "^6.0.3",
+    "random-access-idb": "github:random-access-storage/random-access-idb#master",
+    "typedarray-to-buffer": "^4.0.0"
   },
   "devDependencies": {
     "esbuild": "^0.13.6",
