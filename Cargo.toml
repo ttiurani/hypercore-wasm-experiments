@@ -12,9 +12,9 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 wasm-bindgen = "0.2.71"
-hypercore-protocol = { path = "../hypercore-protocol-rs", features = ["wasm-bindgen"] }
 # hypercore-protocol = { version = "0.3.1", features = ["wasm-bindgen"]}
-hypercore = { path = "../hypercore", features = [] }
+hypercore-protocol = { git = "https://github.com/ttiurani/hypercore-protocol-rs", branch = "master", features = ["wasm-bindgen"] }
+hypercore = { git = "https://github.com/ttiurani/hypercore", branch = "master", features = [] }
 console_error_panic_hook = { version = "0.1.1", optional = true }
 wee_alloc = { version = "0.4.2", optional = true }
 wasm-bindgen-futures = "0.4.10"
@@ -29,7 +29,7 @@ futures = "0.3.13"
 anyhow = "1.0.42"
 async-std = "1.5.0"
 # random-access-storage = "4.0.0"
-random-access-storage = { path = "../random-access-storage" }
+random-access-storage = { git = "https://github.com/ttiurani/random-access-storage", branch = "master" }
 
 # We don't depend on this directly but specify it here to enable the required wasm-bindgen feature
 # getrandom = { version = "0.1", features = ["wasm-bindgen"] }
