@@ -9,7 +9,7 @@ use anyhow::Result;
 use js_sys::Uint8Array;
 use wasm_bindgen::{prelude::*, JsCast};
 
-#[wasm_bindgen(module = "/dist/callbacks.js")]
+#[wasm_bindgen(module = "/callbacks.js")]
 extern "C" {
 
     // #[wasm_bindgen(catch)]

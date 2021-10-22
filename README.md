@@ -26,10 +26,10 @@ A Node.js server has the simple demo backend:
 ## How to run
 
 ```bash
-npm install
-npm run build
 cargo build  --target=wasm32-unknown-unknown
 wasm-pack build --dev --target web
+npm install
+npm run build
 npm run start
 # open http://localhost:9000
 ```
