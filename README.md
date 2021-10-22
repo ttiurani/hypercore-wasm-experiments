@@ -26,7 +26,7 @@ A Node.js server has the simple demo backend:
 ## How to run
 
 ```bash
-cargo build  --target=wasm32-unknown-unknown
+cargo build --target=wasm32-unknown-unknown
 wasm-pack build --dev --target web
 npm install
 npm run build
@@ -36,4 +36,4 @@ npm run start
 
 If it works, this should display this README in the browser, loaded over hypercore-protocol and hypercore in Rust in WASM :-)
 
-Check the browser console for some logs. It currently needs quite a while until the content is displayed, I don't know yet why this is. 
+Check the browser console for some logs.
