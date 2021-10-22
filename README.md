@@ -1,10 +1,8 @@
-# hypercore-protocol in WASM through Rust
+# Hypercore WASM experiments with Rust v2.0
 
-This is a first experiment to compile the Rust implementation of hypercore-protocol to WASM for use in browsers. At the moment, this is a minimal demo that only includes the wire protocol part (with all transport crypto) but not the persistence and verification parts (i.e. the hypercore crate).
+This is a followup experiment to [Frando's hypercore WASM experiments](https://github.com/Frando/hypercore-wasm-experiments) to compile the Rust implementation of hypercore-protocol and hypercore to WASM for use in browsers.
 
-- *Update 2021-03-03*: Cleaned the code and fixed README
-- *Update 2021-03-02:* I wrote this some time back, now updated it roughly to the current dev branch of [hypercore-protocol-rs](https://github.com/datrs/hypercore-protocol-rs). and pushed it to share and invite others to experiment with this
-
+- *Update 2021-10-22*: Added WASM hypercore as the storage
 
 What this does (in Rust compiled to WASM):
 
@@ -12,7 +10,9 @@ What this does (in Rust compiled to WASM):
 - Open a Websocket to localhost:9000
 - Open a hypercore-protocol stream on the websocket
 - Open a channel for the key that was fetched before
-- Load all data blocks, and display them on the page (as a string in a `pre` element)
+- Create a browser-side hypercore using as storage a proxy with a javascript [random-access-idb](https://github.com/random-access-storage/random-access-idb) implementation for the key that was fetched before
+- Replicate all data blocks from the server to the browser-side WASM hypercore, saving the content to IndexedDB
+- Read all replicated blocks from the hypercore and display them on the page (as a string in a `pre` element)
 
 A Node.js server has the simple demo backend:
 
@@ -26,14 +26,14 @@ A Node.js server has the simple demo backend:
 ## How to run
 
 ```bash
+npm install
+npm run build
 cargo build
 wasm-pack build --dev --target web
-cd server
-yarn
-node server.js
+npm run start
 # open http://localhost:9000
 ```
 
-If it works, this should display this README in the browser, loaded over hypercore-protocol in Rust in WASM :-)
+If it works, this should display this README in the browser, loaded over hypercore-protocol and hypercore in Rust in WASM :-)
 
 Check the browser console for some logs. It currently needs quite a while until the content is displayed, I don't know yet why this is. 
