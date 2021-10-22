@@ -4,14 +4,14 @@
   "description": "Hypercore WASM experiments",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild index.js callbacks.js --bundle --outdir=dist --format=esm --define:global=window --inject:esbuild.inject.js"
+    "build": "esbuild index.js callbacks.js --bundle --outdir=dist --format=esm --define:global=window --inject:esbuild.inject.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Frando/hypercore-wasm-experiments.git"
   },
-  "author": "",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Frando/hypercore-wasm-experiments/issues"
   },
@@ -23,6 +23,11 @@
   },
   "devDependencies": {
     "esbuild": "^0.13.6",
-    "events": "^3.3.0"
+    "events": "^3.3.0",
+    "hypercore": "^9.9.0",
+    "node-static": "^0.7.11",
+    "random-access-memory": "^3.1.2",
+    "simple-websocket": "^8.1.1",
+    "split2": "^3.1.1"
   }
 }

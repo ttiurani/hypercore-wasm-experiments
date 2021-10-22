@@ -15,7 +15,7 @@ const feed = hypercore(ram)
 feed.ready(() => {
   console.log('key', feed.key.toString('hex'))
   // Append the README.
-  const filename = p.join(__dirname, '..', 'README.md')
+  const filename = p.join(__dirname, 'README.md')
   pipeline(
     fs.createReadStream(filename),
     split(line => line + '\n'),
@@ -28,7 +28,7 @@ feed.ready(() => {
 })
 
 // Statically serve parent dir.
-const file = new StaticServer(p.join(__dirname, '..'))
+const file = new StaticServer(__dirname)
 const server = http.createServer(function (request, response) {
   // Return the key as JSON.
   if (request.url === '/key') {
