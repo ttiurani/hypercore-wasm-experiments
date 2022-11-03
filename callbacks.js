@@ -1,11 +1,10 @@
-const raidb = require('random-access-idb');
+const createFile = require('random-access-chrome-file');
 const storages = {};
 const toBuffer = require('typedarray-to-buffer')
 
 function initStorage(id) {
     if (!(id in storages)) {
-        const raidbCreator = raidb(id);
-        storages[id] = raidbCreator(`hypercore.db`);
+        storages[id] = createFile(id);
     }
 }
 
@@ -41,7 +40,13 @@ export async function storage_del(id, offset, length) {
 }
 
 export async function storage_truncate(id, length) {
-    return new Promise(resolve => resolve());
+    initStorage(id);
+    return new Promise(resolve => {
+        storages[id].truncate(Number(length), (err) => {
+            if (err) throw err;
+            resolve();
+        });
+    });
 }
 
 export async function storage_len(id) {

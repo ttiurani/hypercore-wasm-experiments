@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Error};
 use futures::future::FutureExt;
-use hypercore::{Storage, Store};
+use hypercore_protocol::hypercore::{Storage, Store};
 use log::*;
 use random_access_storage::RandomAccess;
 use std::fmt::Debug;
@@ -122,7 +122,7 @@ impl RandomAccess for RandomAccessProxy {
         panic!("Not implemented yet");
     }
 
-    async fn len(&self) -> Result<u64, Self::Error> {
+    async fn len(&mut self) -> Result<u64, Self::Error> {
         Ok(self.length)
     }
 
@@ -148,13 +148,12 @@ impl WasmStorage<RandomAccessProxy> {
                     Store::Tree => "tree",
                     Store::Data => "data",
                     Store::Bitfield => "bitfield",
-                    Store::Signatures => "signatures",
-                    Store::Keypair => "key",
+                    Store::Oplog => "oplog",
                 };
                 Ok(RandomAccessProxy::new(name.to_string()))
             }
             .boxed()
         };
-        Ok(Storage::new(create, true).await?)
+        Ok(Storage::open(create, true).await?)
     }
 }

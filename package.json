@@ -18,15 +18,15 @@
   "homepage": "https://github.com/ttiurani/hypercore-wasm-experiments#readme",
   "dependencies": {
     "buffer": "^6.0.3",
-    "random-access-idb": "github:random-access-storage/random-access-idb#master",
+    "random-access-chrome-file": "github:random-access-storage/random-access-chrome-file#master",
     "typedarray-to-buffer": "^4.0.0"
   },
   "devDependencies": {
     "esbuild": "^0.13.6",
     "events": "^3.3.0",
-    "hypercore": "^9.9.0",
+    "hypercore": "^10",
     "node-static": "^0.7.11",
-    "random-access-memory": "^3.1.2",
+    "random-access-memory": "^6.0.0",
     "simple-websocket": "^8.1.1",
     "split2": "^3.1.1"
   }

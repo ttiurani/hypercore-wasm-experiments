@@ -1,30 +1,22 @@
-const hypercore = require('hypercore')
+const Hypercore = require('hypercore');
+const RAM = require('random-access-memory')
 const Server = require('simple-websocket/server')
-const ram = require('random-access-memory')
 const fs = require('fs')
 const { pipeline } = require('stream')
 const http = require('http')
 const p = require('path')
 const { Server: StaticServer } = require('node-static')
-const split = require('split2')
 
 const PORT = 9000
 
 // Init a demo feed.
-const feed = hypercore(ram)
-feed.ready(() => {
-  console.log('key', feed.key.toString('hex'))
+const hypercore = new Hypercore((_) => new RAM())
+hypercore.on('ready', () => {
   // Append the README.
   const filename = p.join(__dirname, 'README.md')
-  pipeline(
-    fs.createReadStream(filename),
-    split(line => line + '\n'),
-    feed.createWriteStream(),
-    err => {
-      if (err) console.error('error importing file', err)
-      else console.error('import done, new len %o, bytes %o', feed.length, feed.byteLength)
-    }
-  )
+  const data = fs.readFileSync(filename, 'UTF-8')
+  const lines = data.split(/\r?\n/);
+  hypercore.append(lines);
 })
 
 // Statically serve parent dir.
@@ -33,7 +25,7 @@ const server = http.createServer(function (request, response) {
   // Return the key as JSON.
   if (request.url === '/key') {
     response.setHeader('Content-Type', 'application/json')
-    return response.end(JSON.stringify({ key: feed.key.toString('hex') }))
+    return response.end(JSON.stringify({ key: hypercore.key.toString('hex') }))
   }
   // Register the static file server.
   request.addListener('end', function () {
@@ -46,8 +38,8 @@ server.on('error', err => console.log('server error:', err.message))
 const websocket = new Server({ server })
 websocket.on('connection', function (socket) {
   console.log('websocket connection open')
-  // Pipe out feed's replication stream into the websocket.
-  const stream = feed.replicate(false, { live: true })
+  // Pipe out hypercore's replication stream into the websocket.
+  const stream = hypercore.replicate(false)
   pipeline(stream, socket, stream, err => {
     console.log('replication error', err.message)
   })
